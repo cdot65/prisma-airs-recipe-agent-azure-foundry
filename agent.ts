@@ -17,7 +17,7 @@ const agentName = requireEnv("AZURE_AI_AGENT_NAME");
 const agentVersion = requireEnv("AZURE_AI_AGENT_VERSION");
 const airsProfile = requireEnv("PANW_AI_SEC_PROFILE_NAME");
 
-const userPrompt = process.env.AGENT_PROMPT ?? "How do I make a classic French baguette at home?";
+const userPrompt = process.env.AGENT_PROMPT || "How do I make a classic French baguette at home?";
 
 // Initialize AIRS (reads PANW_AI_SEC_API_KEY + PANW_AI_SEC_API_ENDPOINT from env)
 init();

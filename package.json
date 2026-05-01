@@ -8,7 +8,8 @@
     "typecheck": "tsc --noEmit",
     "docker:build": "docker build -t prisma-airs-recipe-agent-azure-foundry .",
     "docker:run": "bash -c 'set -a && source .env && GIT_USER_EMAIL=$(git config user.email); set +a && docker run --rm -e AZURE_CLIENT_ID -e AZURE_TENANT_ID -e AZURE_CLIENT_SECRET -e AZURE_AI_ENDPOINT -e AZURE_AI_AGENT_NAME -e AZURE_AI_AGENT_VERSION -e PANW_AI_SEC_API_KEY -e PANW_AI_SEC_API_ENDPOINT -e PANW_AI_SEC_PROFILE_NAME -e GIT_USER_EMAIL -e AGENT_PROMPT prisma-airs-recipe-agent-azure-foundry'",
-    "agent": "pnpm docker:build && pnpm docker:run"
+    "agent": "bash -c 'pnpm docker:build && AGENT_PROMPT=\"$1\" pnpm docker:run' --",
+    "agent:fast": "bash -c 'AGENT_PROMPT=\"$1\" pnpm docker:run' --"
   },
   "packageManager": "pnpm@10.6.5",
   "dependencies": {

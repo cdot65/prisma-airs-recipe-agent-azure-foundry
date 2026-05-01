@@ -111,16 +111,22 @@ All configuration is via environment variables. See `.env.example` for the full 
 
 ## Usage
 
-Run end-to-end in Docker (build, run, container is removed on exit):
+Run end-to-end in Docker with the default prompt (build, run, container is removed on exit):
 
 ```bash
 pnpm agent
 ```
 
-Override the prompt without editing the source:
+Pass any prompt as a positional argument:
 
 ```bash
-AGENT_PROMPT="What's a good dough hydration for sourdough?" pnpm agent
+pnpm agent "What's a good hydration ratio for sourdough?"
+```
+
+Skip the rebuild on subsequent runs (uses the cached image):
+
+```bash
+pnpm agent:fast "How long should I autolyse?"
 ```
 
 Run on the host without Docker (uses your local `node` + `tsx`, loads `.env` directly):
@@ -128,6 +134,18 @@ Run on the host without Docker (uses your local `node` + `tsx`, loads `.env` dir
 ```bash
 pnpm dev
 ```
+
+Raw Docker, no pnpm wrapper (after `pnpm docker:build` once):
+
+```bash
+docker run --rm \
+  --env-file .env \
+  -e GIT_USER_EMAIL="$(git config user.email)" \
+  -e AGENT_PROMPT="What's a good hydration ratio for sourdough?" \
+  prisma-airs-recipe-agent-azure-foundry
+```
+
+Note: `--env-file` does not strip surrounding quotes from values, so any quoted values in `.env` will reach the container with the quotes embedded. The `pnpm` scripts source `.env` through `bash` first, which handles quoting correctly.
 
 Expected output for an allowed round-trip:
 
